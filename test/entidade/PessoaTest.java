@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entidadeTest;
+package entidade;
 
-import entidade.Pessoa;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,6 +14,7 @@ import static org.junit.Assert.*;
  */
 public class PessoaTest {
     
+    
     public PessoaTest() {
     }
     
@@ -23,6 +23,14 @@ public class PessoaTest {
         Pessoa p = new Pessoa("Vitoria",123456789);
         assertEquals("Vitoria", p.getNome());
         assertEquals(123456789, p.getTelefone());
+    }
+    
+    @Test
+    public void alterarTelefonePessoaTest(){
+        Pessoa p = new Pessoa("Vitoria",123456789);
+        p.setTelefone(987654321);
+        assertEquals("Vitoria", p.getNome());
+        assertEquals(987654321, p.getTelefone());
     }
     
 }
