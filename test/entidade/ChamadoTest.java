@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class ChamadoTest {
 
-    //teste falha pois o código não é setado no Chamado, apesar de dar a entender que é. 
+    //teste dá erro pois o código não é setado no Chamado, apesar de dar a entender que é. 
     //Ele nem sequer é usado no corpo do método
     @Test
     public void cadastrarChamadoProblemaRedeTest() {
