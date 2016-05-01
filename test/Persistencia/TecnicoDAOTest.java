@@ -20,15 +20,33 @@ import static org.junit.Assert.*;
  */
 public class TecnicoDAOTest {
 
+    // testa se um técnico é inserido, verificando se ele já existia antes (nesse caso não deve ser inserido) 
     @Test
-    public void inserirTecnicoDAOTest() {
+    public void inserirVerificandoAmbiguidadesTecnicoDAOTest() {
         TecnicoDAO tecDAO = new TecnicoDAO();
         Tecnico tec = new Tecnico("Lucas", 12345678);
+        boolean achou = false;
+        if (!tecDAO.voltaCashTecnico().isEmpty()) {
+            for (int key : tecDAO.voltaCashTecnico().keySet()) {
+                if (tecDAO.voltaCashTecnico().get(key)!= null) {
+                    if (tecDAO.voltaCashTecnico().get(key).getNome().equalsIgnoreCase("Lucas")) {
+                        achou = true;
+                        break;
+                    }
+                }
+            }
+        }
+        int tamanhoAntes = tecDAO.voltaCashTecnico().size();
         tecDAO.put(tec);
-        assertEquals(tec, tecDAO.get(tecDAO.gerarCodigo() - 1));
+        if (achou) {
+            assertEquals(tamanhoAntes, tecDAO.voltaCashTecnico().size());
+        } else {
+            assertEquals(tec, tecDAO.get(tecDAO.voltaCashTecnico().size() + 1));
+        }
+
     }
-    
-    @Test (expected = Exception.class)
+
+    @Test(expected = Exception.class)
     public void inserirTecnicoDAONuloTest() throws Exception {
         TecnicoDAO tecDAO = new TecnicoDAO();
         tecDAO.put(null);
@@ -36,20 +54,22 @@ public class TecnicoDAOTest {
 
     /* 
      O teste a seguir é adequado, mas não ideal. 
-     Idealmente, o arquivo seria lido e convertido em um HashMap com os objetos,
-     e então a verificação da persistência seria feita de acordo com o nome
-     do técnico e seu código, que se relaciona com a posição deste no HashMap.
-     Após tentativas frustradas de conversão do arquivo .dat, o teste foi implementado 
-     desse forma para que pudesse ao menos passar por uma validação básica.
-     Caso não fosse permitido inserir técnicos com nomes iguais, esse teste não 
-     seria um teste ruim, apesar de ainda assim ser recomendável que uma verificação
-     completa do objeto fosse feita.
+     Idealmente, para testar a persistencia o arquivo seria lido e convertido
+     em um HashMap com os objetos, e então a verificação da persistência
+     seria feita de acordo com o nome do técnico e seu código, que se relaciona
+    com a posição deste no HashMap.
+     Após tentativas frustradas de conversão do arquivo .dat, em um objeto HashMap o 
+     teste foi implementado desse forma para que pudesse ao menos passar por uma validação básica.
+     Caso não fosse permitido inserir técnicos com nomes iguais, assim como não é 
+     permitido inserir empresas com nomes iguais por exemplo, esse teste não 
+     seria um teste ruim, apesar de ainda assim não ser ideal (para que fosse, uma verificação
+     completa do objeto deveria ser feita).
      */
     @Test
-    public void persistirNoArquivoTecnicoDAOTest() throws FileNotFoundException, IOException {
+    public void persistirVerificandoAmbiguidadesNoArquivoTecnicoDAOTest() throws FileNotFoundException, IOException {
         TecnicoDAO tecDAO = new TecnicoDAO();
         Tecnico tec = new Tecnico("Lucas", 12345678);
-        tecDAO.put(tec);
+        
         FileInputStream fis = new FileInputStream("tecnicos.dat");
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         StringBuilder sb = new StringBuilder();
@@ -57,36 +77,27 @@ public class TecnicoDAOTest {
         while ((line = br.readLine()) != null) {
             sb.append(line);
         }
-        assertTrue(sb.toString().contains("Lucas"));
-    }
-
-    /* O teste abaixo considera como regra de negócio que não podem existir técnicos
-    com nomes iguais, tornando o teste acima uma solução apropriada para a verificação */
-    @Test
-    public void leituraEVerificacaoAmbiguidadesArquivoTecnicoDAOTest() throws FileNotFoundException, IOException {
-        TecnicoDAO tecDAO = new TecnicoDAO();
-        Tecnico tec = new Tecnico("Lucas", 12345678);
+        
+        boolean achou=false;
+        if(sb.toString().contains("Lucas")){
+           achou=true;
+        }
+        
         tecDAO.put(tec);
-        FileInputStream fis = new FileInputStream("tecnicos.dat");
-        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
+        
+        FileInputStream fis2 = new FileInputStream("tecnicos.dat");
+        BufferedReader br2 = new BufferedReader(new InputStreamReader(fis2));
+        StringBuilder sb2 = new StringBuilder();
+        String line2;
+        while ((line2 = br2.readLine()) != null) {
+            sb2.append(line2);
         }
-
-        String str = sb.toString();
-        String findStr = "Lucas";
-        int lastIndex = 0;
-        int count = 0;
-        while (lastIndex != -1) {
-            lastIndex = str.indexOf(findStr, lastIndex);
-            if (lastIndex != -1) {
-                count++;
-                lastIndex += findStr.length();
-            }
+        
+        if (achou) {
+            assertEquals(sb.toString(), sb2.toString());
+        } else {
+            assertTrue(sb2.toString().contains("Lucas"));
         }
-        assertTrue(count <= 1);
     }
 
     @Test
