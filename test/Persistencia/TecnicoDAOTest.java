@@ -7,13 +7,10 @@ package Persistencia;
 
 import entidade.Tecnico;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -30,9 +27,14 @@ public class TecnicoDAOTest {
         tecDAO.put(tec);
         assertEquals(tec, tecDAO.get(tecDAO.gerarCodigo() - 1));
     }
+    
+    @Test (expected = Exception.class)
+    public void inserirTecnicoDAONuloTest() throws Exception {
+        TecnicoDAO tecDAO = new TecnicoDAO();
+        tecDAO.put(null);
+    }
 
     /* 
-    
      O teste a seguir é adequado, mas não ideal. 
      Idealmente, o arquivo seria lido e convertido em um HashMap com os objetos,
      e então a verificação da persistência seria feita de acordo com o nome
@@ -74,7 +76,6 @@ public class TecnicoDAOTest {
         }
 
         String str = sb.toString();
-        System.out.println(str);
         String findStr = "Lucas";
         int lastIndex = 0;
         int count = 0;
@@ -85,7 +86,6 @@ public class TecnicoDAOTest {
                 lastIndex += findStr.length();
             }
         }
-        System.out.println(count);
         assertTrue(count <= 1);
     }
 
