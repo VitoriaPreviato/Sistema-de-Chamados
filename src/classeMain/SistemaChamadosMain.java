@@ -1,3 +1,5 @@
+package classeMain;
+
 import controle.ControladorPrincipal;
 
 public class SistemaChamadosMain {
