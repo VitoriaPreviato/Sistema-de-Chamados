@@ -67,9 +67,13 @@ public class ClienteDAOTest {
      */
     @Test
     public void persistirVerificandoAmbiguidadesNoArquivoClienteDAOTest() throws FileNotFoundException, IOException {
+             
         Empresa emp = new Empresa(123, "Google");
         ClienteEmpresa ce = new ClienteEmpresa(001, emp, 40168413827L, "Rafael", 12123434);
         ClienteDAO ceDAO = new ClienteDAO();
+        
+        ClienteEmpresa ce2 = new ClienteEmpresa(002, emp, 40168413827L, "Vitoria", 12123434);
+        ceDAO.put(ce2);
         
         boolean achou=false;
         if(ceDAO.voltaCashCliente().containsKey(40168413827L)){

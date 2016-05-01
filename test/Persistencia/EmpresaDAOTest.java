@@ -61,11 +61,10 @@ public class EmpresaDAOTest {
      */
     @Test
     public void persistirVerificandoAmbiguidadesNoArquivoEmpresaDAOTest() throws FileNotFoundException, IOException {
-        EmpresaDAO empDAO1 = new EmpresaDAO();
-        Empresa emp1 = new Empresa(123, "Google");
-        empDAO1.put(emp1);
-        
         EmpresaDAO empDAO = new EmpresaDAO();
+        Empresa emp1 = new Empresa(123, "Google");
+        empDAO.put(emp1);      
+        
         Empresa emp = new Empresa(123, "IBM");
         
         FileInputStream fis = new FileInputStream("empresas.dat");
