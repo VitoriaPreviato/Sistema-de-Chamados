@@ -99,7 +99,7 @@ public class EmpresaDAOTest {
     }
     
      @Test
-    public void buscarPorCodigoEmpresaDAOTest() {
+    public void buscarPorContratoEmpresaDAOTest() {
         EmpresaDAO empDAO = new EmpresaDAO();
         Empresa emp = new Empresa(123, "IBM");
         empDAO.put(emp);
