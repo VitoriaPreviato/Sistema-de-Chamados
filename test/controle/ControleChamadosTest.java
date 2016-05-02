@@ -98,6 +98,26 @@ public class ControleChamadosTest {
         assertEquals(2,ctCham.validarQtdChamados(clienteEmp));
     }
     
+    @Test
+    public void detalhesChamadoControleChamadosTest() {
+        Tecnico tec = new Tecnico("Lucas", 12345678);
+        Empresa emp = new Empresa(123, "Google");
+        ClienteEmpresa clienteEmp = new ClienteEmpresa(004, emp, 401222824L, "Gilda", 12123434);
+        Chamado c = new Chamado("Título do chamado de desempenho", "Descrição do chamado 1", 2, tec, clienteEmp, "WINDOWS", "Vista", "Operação realizada", 20.0);
+        
+        String detalhes = "\n" + "--------" + "\n" + "Data de abertura do chamado: "
+                + c.getData() + "\n" + "Hororio de abertura do chamado: " + c.getHora() + "\n"
+                + "Titulo do chamado: " + "Título do chamado de desempenho" + "\n" + "Descri??o do chamado: " + "Descrição do chamado 1" + "\n"
+                + "Prioridade do chamado" + "2" + "\n" + "Status do chamado: " + "Iniciado" + "\n"
+                + "Tipo de problema do chamado: " + "Problema de Desempenho" + "\n" + "Tecnico responsovel pelo chamado: "
+                + "Lucas" + "\n" + "Cliente requisitor do chamado: " + "Contrato: " + "123"
+                + " - Nome Empresa:" + "Google" + " - Cliente: "
+                + "401222824" + " - " + "Gilda" + "\n";
+        ControleChamados ctCham = new ControleChamados();
+        assertEquals(detalhes, ctCham.retornaDetalhesChamado(c));
+        System.out.println(ctCham.retornaDetalhesChamado(c));
+
+    }
     
     
     
