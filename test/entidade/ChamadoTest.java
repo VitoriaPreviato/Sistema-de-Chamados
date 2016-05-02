@@ -75,6 +75,40 @@ public class ChamadoTest {
         assertEquals("Iniciado", chamDesemp.getStatus());
         assertEquals("Problema de Desempenho", chamDesemp.getTipoProblema());
     }
+    
+    @Test(expected = Exception.class)
+    public void cadastrarChamadoDadosInvalidoTest() throws Exception {
+        Chamado chamDesemp = new Chamado(null, null, -1, null, null, null, null, null, -1.0);
+        Chamado chamBd = new Chamado(null, null, -1, null, null, null, null, null);
+        Chamado chamRede = new Chamado(-1, null, null, -1, null, null, null, null, null, null);        
+    }
+    
+    @Test(expected = Exception.class)
+    public void alterarChamadoDadosInvalidoTest() throws Exception {
+        Tecnico tec = new Tecnico("Lucas", 12345678);
+        Empresa emp = new Empresa(123, "Google");
+        ClienteEmpresa clienteEmp = new ClienteEmpresa(001, emp, 40168413824L, "Rafael", 12123434);
+        Chamado chamado = new Chamado("Título do chamado", "Descrição do chamado", 2, tec, clienteEmp, "WINDOWS", "Vista", "MySql");
+        chamado.setBancoDeDados(null);
+        chamado.setCausaProblema(null);
+        chamado.setCliente(null);
+        chamado.setCodigo(-1);
+        chamado.setData(null);
+        chamado.setDescricao(null);
+        chamado.setDuracaoOperacao(-1.0);
+        chamado.setEnderecoRede(null);
+        chamado.setHora(null);
+        chamado.setOperacao(null);
+        chamado.setPrioridade(-1);
+        chamado.setSistemaOperacional(null);
+        chamado.setSolucaoProblema(null);
+        chamado.setStatus(null);
+        chamado.setTecnico(null);
+        chamado.setTipoConexao(null);
+        chamado.setTipoProblema(null);
+        chamado.setTitulo(null);
+        chamado.setVersaoSO(null);
+    }
 
     @Test
     public void alterarCodigoChamadoTest() {
