@@ -148,5 +148,13 @@ public class ClienteDAOTest {
         assertEquals((long)ce.getCodigo(),(long)ceDAO.voltaCashCliente().size()+1);
     }
     
+    @Test
+    public void validarCPFClienteDAOTest() {
+        Empresa emp = new Empresa(123, "Google");
+        ClienteEmpresa ce = new ClienteEmpresa(001, emp, 40168413824L, "Rafael", 12123434);
+        ClienteDAO ceDAO = new ClienteDAO();
+        ceDAO.put(ce);        
+        assertEquals(false,ceDAO.validarCPF(40168413824L));
+    }
 
 }
